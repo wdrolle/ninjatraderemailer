@@ -1,0 +1,121 @@
+body {
+  background-color: #e0f7fa;
+  font-family: 'Poppins', Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px; /* Ensure the body has no more than 20px from the border */
+}
+
+.outer-container {
+  background-color: #e0f7fa;
+  margin: 20px auto; /* Ensure the outer-container is 20px away from the body border */
+  max-width: calc(100% - 40px); /* Adjust max-width to account for body padding */
+  padding: 0; /* Remove padding from outer-container to maximize space */
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f7f7f7;
+  padding: 5px;
+  box-sizing: border-box; /* Ensure padding is included in the width calculation */
+}
+
+.header {
+  background-color: #0073e6;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle; /* This line ensures the content is vertically centered */
+}
+
+.header h1, .header h2 {
+  margin: 0;
+}
+
+.section p {
+  text-align: center;
+}
+
+.section {
+  padding: 8px;
+}
+
+.table-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.table h2 {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #d9d9d9;
+  padding: 2px;
+  text-align: center;
+  vertical-align: middle; /* This line ensures the content is vertically centered */
+}
+
+th {
+  background-color: #0073e6;
+  color: white;
+}
+
+td {
+  word-wrap: break-word; /* Ensure text is wrapped */
+  max-width: 100px; /* Set a max width for table cells */
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.footer {
+  background-color: #0073e6;
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .table {
+    width: 100%;
+  }
+}
+
+/* Set the width for the Time column */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 20px;
+}
+
+/* Set the width for other columns */
+table th:nth-child(5),
+table th:nth-child(6),
+table th:nth-child(7),
+table th:nth-child(8),
+table th:nth-child(9),
+table th:nth-child(10),
+table th:nth-child(11),
+table td:nth-child(5),
+table td:nth-child(6),
+table td:nth-child(7),
+table td:nth-child(8),
+table td:nth-child(9),
+table td:nth-child(10),
+table td:nth-child(11) {
+  width: 10px;
+}
+

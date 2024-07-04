@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Profits Report</title>
+    <style>
+      {{ styles }}
+    </style>
+</head>
+<body style="background-color: #e0f7fa; font-family: 'Poppins', Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px;">
+    <div style="background-color: #e0f7fa; margin: 20px auto; max-width: calc(100% - 40px); padding: 0;">
+        <div style="width: 100%; margin: 0 auto; background-color: #f7f7f7; padding: 5px; box-sizing: border-box;">
+            <div style="background-color: #0073e6; color: white; padding: 10px; text-align: center; vertical-align: middle;">
+                <h1 style="margin: 0;">WDR Consulting, Inc.</h1>
+                <h2 style="margin: 0;">Profits Report</h2>
+            </div>
+            <div style="padding: 8px;">
+                <p style="text-align: center;">This report provides a detailed overview of the financial performance across different periods.</p>
+                <p style="text-align: center;">{{ summary }}</p>
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="width: 100%; margin-bottom: 5px;">
+                        <h2 style="text-align: center;">Yearly Table</h2>
+                        <p style="text-align: center;">This table summarizes the yearly financial performance, including the net change in account balances.</p>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Time</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Account</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Balance</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Profit</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Net Change</th>
+                            </tr>
+                            {{ yearly_table }}
+                        </table>
+                    </div>
+                    <div style="width: 5px; height: 5px;"></div>
+                    <div style="width: 100%; margin-bottom: 5px;">
+                        <h2 style="text-align: center;">Quarterly Table</h2>
+                        <p style="text-align: center;">This table provides a quarterly breakdown of financial performance, highlighting key changes in account balances.</p>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Time</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Account</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Balance</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Profit</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Net Change</th>
+                            </tr>
+                            {{ quarterly_table }}
+                        </table>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="width: 100%; margin-bottom: 5px;">
+                        <h2 style="text-align: center;">Monthly Table</h2>
+                        <p style="text-align: center;">The monthly table showcases the financial performance for each month, including net changes.</p>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Time</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Account</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Balance</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Profit</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Net Change</th>
+                            </tr>
+                            {{ monthly_table }}
+                        </table>
+                    </div>
+                    <div style="width: 5px; height: 5px;"></div>
+                    <div style="width: 100%; margin-bottom: 5px;">
+                        <h2 style="text-align: center;">Weekly Table</h2>
+                        <p style="text-align: center;">This table details the weekly financial performance, tracking the changes in account balances over weeks.</p>
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Time</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Account</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Balance</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Profit</th>
+                                <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Net Change</th>
+                            </tr>
+                            {{ weekly_table }}
+                        </table>
+                    </div>
+                </div>
+                <div style="width: 100%; margin-bottom: 5px;">
+                    <h2 style="text-align: center;">Daily Table</h2>
+                    <p style="text-align: center;">The daily table provides a detailed view of the daily financial transactions and performance metrics.</p>
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Time</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Account</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Balance</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Profit</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Net Change</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Unrealized P/L</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Total Cash Balance</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Realized P/L</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Gross Realized P/L</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Buying Power</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Cash Value</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Commission</th>
+                            <th style="border: 1px solid #d9d9d9; padding: 2px; background-color: #0073e6; color: white; text-align: center; vertical-align: middle;">Fee</th>
+                        </tr>
+                        {{ daily_table }}
+                    </table>
+                </div>
+            </div>
+            <div style="background-color: #0073e6; color: white; padding: 5px; text-align: center;">
+                <p>WDR Consulting, Inc. &copy; {{ year }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

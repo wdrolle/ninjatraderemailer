@@ -8,7 +8,7 @@ config.json
 
 # Ignore Python cache files
 __pycache__/
-*.py[cod]
+*.pyc
 
 # Ignore temporary files
 *.log

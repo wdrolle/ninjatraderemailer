@@ -1,0 +1,184 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Linq;
+using NinjaTrader.Cbi;
+using NinjaTrader.Gui.Chart;
+using NinjaTrader.Gui.Tools;
+using NinjaTrader.NinjaScript;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.ComponentModel;
+
+namespace NinjaTrader.NinjaScript.Indicators
+{
+    public class ExportAccountData : Indicator
+    {
+        private string filePath = @"C:\Users\Administrator\.csv\profits\account_data.csv";
+        private List<string> existingRecords = new List<string>();
+        private DateTime lastExportTime;
+        private Button exportButton;
+
+        [NinjaScriptProperty]
+        [DisplayName("Show Export Button")]
+        [Description("Show Export button")]
+        [Category("Visual")]
+        public bool ShowExportButton { get; set; }
+
+        [NinjaScriptProperty]
+        [DisplayName("Button Position Offset")]
+        [Description("Vertical offset for the button on the chart")]
+        [Category("Visual")]
+        public int ButtonPositionOffset { get; set; }
+
+        protected override void OnStateChange()
+        {
+            if (State == State.SetDefaults)
+            {
+                Description = @"Exports account data to a CSV file.";
+                Name = "ExportAccountData";
+                Calculate = Calculate.OnEachTick;
+                IsOverlay = true;
+                ShowExportButton = true;
+                ButtonPositionOffset = 30;
+            }
+            else if (State == State.Configure)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        existingRecords = File.ReadAllLines(filePath).ToList();
+                        Print("Loaded existing records. Record count: " + existingRecords.Count);
+                    }
+                    else
+                    {
+                        File.WriteAllText(filePath, "Time,Account,Account Balance,Net Change,Unrealized P/L,Total Cash Balance,Gross Realized P/L,Buying Power,Cash Value,Commission,Fee\n");
+                        Print("Created new file with headers");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Print("Error during file initialization: " + ex.Message);
+                }
+                lastExportTime = DateTime.Now;
+            }
+            else if (State == State.Historical)
+            {
+                AddChartButtons();
+                ExportData(); // Export data when the indicator is loaded
+            }
+            else if (State == State.Terminated)
+            {
+                RemoveChartButtons();
+            }
+        }
+
+        protected override void OnBarUpdate()
+        {
+            // Check if an hour has passed since the last export
+            if (DateTime.Now >= lastExportTime.AddHours(1))
+            {
+                Print("An hour has passed, exporting data");
+                ExportData();
+                lastExportTime = DateTime.Now;
+            }
+        }
+
+        private void ExportData()
+        {
+            foreach (var account in Account.All)
+            {
+                try
+                {
+                    if (account.ConnectionStatus == ConnectionStatus.Connected)
+                    {
+                        var data = new List<string>
+                        {
+                            DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss"),
+                            account.Name,
+                            account.Get(AccountItem.CashValue, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.RealizedProfitLoss, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.UnrealizedProfitLoss, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.TotalCashBalance, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.GrossRealizedProfitLoss, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.BuyingPower, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.CashValue, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.Commission, Currency.UsDollar).ToString(),
+                            account.Get(AccountItem.Fee, Currency.UsDollar).ToString()
+                        };
+
+                        var newRecord = string.Join(",", data);
+                        Print("Prepared new record: " + newRecord);
+
+                        if (!existingRecords.Contains(newRecord))
+                        {
+                            File.AppendAllText(filePath, newRecord + "\n");
+                            existingRecords.Add(newRecord);
+                            Print("Data exported: " + newRecord); // Print the exported data for debugging
+                        }
+                        else
+                        {
+                            Print("Record already exists, skipping: " + newRecord);
+                        }
+                    }
+                    else
+                    {
+                        Print("Account not connected: " + account.Name);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Print("Error exporting data for account " + account.Name + ": " + ex.Message);
+                }
+            }
+        }
+
+        private void AddChartButtons()
+        {
+            if (ChartControl != null && ChartControl.ChartPanels != null && ChartControl.ChartPanels.Count > 0)
+            {
+                ChartControl.Dispatcher.InvokeAsync(() =>
+                {
+                    var grid = ChartControl.Parent as Grid;
+                    if (grid != null && ShowExportButton)
+                    {
+                        exportButton = new Button
+                        {
+                            Content = "Export Account Data",
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black,
+                            Width = 150,
+                            Height = 30,
+                            Margin = new System.Windows.Thickness(5, ButtonPositionOffset, 0, 0),
+                            HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                            VerticalAlignment = System.Windows.VerticalAlignment.Top
+                        };
+                        exportButton.Click += (s, e) =>
+                        {
+                            Print("Export Account Data button clicked");
+                            ExportData();
+                        };
+                        grid.Children.Add(exportButton);
+                    }
+                });
+            }
+        }
+
+        private void RemoveChartButtons()
+        {
+            if (ChartControl != null)
+            {
+                ChartControl.Dispatcher.InvokeAsync(() =>
+                {
+                    var grid = ChartControl.Parent as Grid;
+                    if (grid != null && exportButton != null)
+                    {
+                        grid.Children.Remove(exportButton);
+                    }
+                });
+            }
+        }
+    }
+}
